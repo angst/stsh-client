@@ -77,8 +77,6 @@
 -(NSDictionary *)findUnprocessedScreenshotsOnDesktop;
 
 -(IBAction)displayViewForGeneralSettings:(id)sender;
--(IBAction)displayViewForProcessingSettings:(id)sender;
--(IBAction)displayViewForAdvancedSettings:(id)sender;
 
 -(IBAction)orderFrontSettingsWindow:(id)sender;
 -(IBAction)enableMenuItem:(id)sender;

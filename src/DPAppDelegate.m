@@ -992,15 +992,6 @@ extern int pngcrush_main(int argc, char *argv[]);
 		[mainWindow setContentView:generalSettingsView display:YES animate:YES];
 }
 
-- (IBAction)displayViewForProcessingSettings:(id)sender {
-	if (processingSettingsView && [mainWindow contentView] != processingSettingsView)
-		[mainWindow setContentView:processingSettingsView display:YES animate:YES];
-}
-
-- (IBAction)displayViewForAdvancedSettings:(id)sender {
-	if (advancedSettingsView && [mainWindow contentView] != advancedSettingsView)
-		[mainWindow setContentView:advancedSettingsView display:YES animate:YES];
-}
 
 - (IBAction)saveState:(id)sender {
 	[defaults setObject:uploadedScreenshots forKey:@"screenshots"];
@@ -1108,22 +1099,22 @@ extern int pngcrush_main(int argc, char *argv[]);
 		[item setTarget:self];
 		[item setAction:@selector(displayViewForGeneralSettings:)];
 	}
-	else if (itemIdentifier == DPToolbarProcessingSettingsItemIdentifier) {
-		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-		[item setImage:[NSImage imageNamed:@"toolbar-processing"]];
-		[item setLabel:@"Processing"];
-		[item setToolTip:@"How images are picked up and processed"];
-		[item setTarget:self];
-		[item setAction:@selector(displayViewForProcessingSettings:)];
-	}
-	else if (itemIdentifier == DPToolbarAdvancedSettingsItemIdentifier) {
-		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-		[item setImage:[NSImage imageNamed:@"NSAdvanced"]];
-		[item setLabel:@"Advanced"];
-		[item setToolTip:@"You probably don't need to change these things in here"];
-		[item setTarget:self];
-		[item setAction:@selector(displayViewForAdvancedSettings:)];
-	}
+    // else if (itemIdentifier == DPToolbarProcessingSettingsItemIdentifier) {
+    //  item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+    //  [item setImage:[NSImage imageNamed:@"toolbar-processing"]];
+    //  [item setLabel:@"Processing"];
+    //  [item setToolTip:@"How images are picked up and processed"];
+    //  [item setTarget:self];
+    //  [item setAction:@selector(displayViewForProcessingSettings:)];
+    // }
+    // else if (itemIdentifier == DPToolbarAdvancedSettingsItemIdentifier) {
+    //  item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+    //  [item setImage:[NSImage imageNamed:@"NSAdvanced"]];
+    //  [item setLabel:@"Advanced"];
+    //  [item setToolTip:@"You probably don't need to change these things in here"];
+    //  [item setTarget:self];
+    //  [item setAction:@selector(displayViewForAdvancedSettings:)];
+    // }
 	return item;
 }
 
