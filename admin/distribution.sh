@@ -6,10 +6,10 @@ BUILD_STYLE="Release"
 VERSION=$(defaults read "$BUILT_PRODUCTS_DIR/$PROJECT_NAME.app/Contents/Info" CFBundleVersion)
 DOWNLOAD_BASE_URL="http://stsh.me/dist"
 RELEASENOTES_URL="http://stsh.me/dist/release-notes#version-$VERSION"
-KEYCHAIN_PRIVKEY_NAME="Stsh release signing key (private)"
 
 ARCHIVE_FILENAME="$PROJECT_NAME-$VERSION.zip"
 DOWNLOAD_URL="$DOWNLOAD_BASE_URL/$ARCHIVE_FILENAME"
+PRIVATE_KEY="~/Dropbox/stsh.dsa.pem"
 
 WD=$PWD
 cd "$BUILT_PRODUCTS_DIR"
@@ -21,9 +21,7 @@ PUBDATE=$(LC_TIME=c date +"%a, %d %b %G %T %z")
 
 # For OS X >=10.6:
 SIGNATURE=$(
-	openssl dgst -sha1 -binary < "$ARCHIVE_FILENAME" \
-	| openssl dgst -dss1 -sign <(security find-generic-password -g -s "$KEYCHAIN_PRIVKEY_NAME" 2>&1 1>/dev/null | /usr/bin/perl -pe '($_) = /"(.+)"/; s/\\012/\n/g' | /usr/bin/perl -MXML::LibXML -e 'print XML::LibXML->new()->parse_file("-")->findvalue(q(//string[preceding-sibling::key[1] = "NOTE"]))') \
-	| openssl enc -base64
+	ruby "$PROJECT_DIR"/admin/sign_update.rb "$ARCHIVE_FILENAME" /Users/"$USER"/Dropbox/stsh.dsa.pem
 )
 # For OS X <=10.5:
 #SIGNATURE=$(
@@ -32,7 +30,7 @@ SIGNATURE=$(
 #	| openssl enc -base64
 #)
 
-[ $SIGNATURE ] || { echo Unable to load signing private key with name "'$KEYCHAIN_PRIVKEY_NAME'" from keychain; false; }
+[ $SIGNATURE ] || { echo Unable to load signing private key with name "'$SIGNATURE'" from keychain; false; }
 
 
 python - <<EOF
@@ -100,8 +98,8 @@ open('$WD/admin/release-notes.html','w').write(HTML)
 EOF
 
 PATH=~/bin:$PATH # if mate is in home/bin
-mate -a "$WD/admin/appcast.xml" "$WD/admin/release-notes.html"
-mate -a <<EOF
+/usr/local/bin/mate -a "$WD/admin/appcast.xml" "$WD/admin/release-notes.html"
+/usr/local/bin/mate -a <<EOF
 
                   ------------- INSTRUCTIONS -------------
 
