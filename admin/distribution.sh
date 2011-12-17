@@ -1,15 +1,15 @@
 #!/bin/bash
 set -o errexit
 
-[ $BUILD_STYLE = Release ] || { echo Distribution target requires "'Release'" build style; false; }
+BUILD_STYLE="Release"
 
 VERSION=$(defaults read "$BUILT_PRODUCTS_DIR/$PROJECT_NAME.app/Contents/Info" CFBundleVersion)
-DOWNLOAD_BASE_URL="http://hunch.se/scrup/dist"
-RELEASENOTES_URL="http://hunch.se/scrup/release-notes.html#version-$VERSION"
+DOWNLOAD_BASE_URL="http://stsh.me/dist"
+RELEASENOTES_URL="http://stsh.me/dist/release-notes#version-$VERSION"
+KEYCHAIN_PRIVKEY_NAME="Stsh release signing key (private)"
 
 ARCHIVE_FILENAME="$PROJECT_NAME-$VERSION.zip"
 DOWNLOAD_URL="$DOWNLOAD_BASE_URL/$ARCHIVE_FILENAME"
-KEYCHAIN_PRIVKEY_NAME="Scrup release signing key (private)"
 
 WD=$PWD
 cd "$BUILT_PRODUCTS_DIR"
@@ -111,9 +111,9 @@ mate '$WD/admin/release-notes.html'
 
 2. Publish the archive, release notes and appcast -- in that order:
 
-scp '$BUILT_PRODUCTS_DIR/$ARCHIVE_FILENAME' hunch.se:/var/www/hunch.se/www/public/scrup/dist/
-scp '$WD/admin/release-notes.html' hunch.se:/var/www/hunch.se/www/public/scrup/release-notes.html
-scp '$WD/admin/appcast.xml' hunch.se:/var/www/hunch.se/www/public/scrup/appcast.xml
+scp '$BUILT_PRODUCTS_DIR/$ARCHIVE_FILENAME' stsh.me:/var/www/stsh/current/public/dist/
+scp '$WD/admin/release-notes.html' stsh.me:/var/www/stsh/current/public/dist/release-notes.html
+scp '$WD/admin/appcast.xml' stsh.me:/var/www/stsh/current/public/dist/appcast.xml
 
 3. Commit, tag and push the source
 
