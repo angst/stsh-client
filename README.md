@@ -8,7 +8,6 @@ Take a screenshot in OS X and have a URL to the picture in your pasteboard a sec
 
 For Mac OS X 10.6 Snow Leopard.
 
-
 ## Building
 
 You'll need libpngcrush to build stsh-client. libpngcrush is an external submodule of stsh-client which you'll need to update after you've checked out the stsh-client source:
